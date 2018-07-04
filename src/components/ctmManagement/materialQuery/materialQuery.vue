@@ -7,6 +7,9 @@
 import publicHeader from "@/components/publicHeader/displayHeader.vue";
 export default {
   name: "materialQuery",
+  data() {
+    return {};
+  },
   components: {
     "v-publicHeader": publicHeader
   }

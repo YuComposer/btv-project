@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import state from "@/store/state/ctmQuery";
+import state from "@/store/state/state";
 
 Vue.use(Vuex);
 

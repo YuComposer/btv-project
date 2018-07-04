@@ -1,8 +1,9 @@
 <template>
     <div class="ctmQuery">
-         <v-publicHeader></v-publicHeader>
-         <el-main>
-
+         <!-- <v-publicHeader></v-publicHeader> -->
+    <el-main>
+      
+      <!-- 查询表单 -->
        <el-form>
          <div class="from_max">
          <div class="float_input_item float_input_itemOne">
@@ -24,7 +25,7 @@
 
          <div class="float_input_item">
            <el-form-item>
-           <el-button type="primary">查询</el-button>
+           <el-button type="primary" @click="chaxun">查询</el-button>
            </el-form-item>
          </div>
          
@@ -37,57 +38,38 @@
          
        </el-form>
 
+      <!-- 新建按钮 批量操作按钮 -->
+       <div class="newButton">
+         <router-link to="/ctmManagement/ctmMaintain">
+          <el-button type="primary">+ 新建</el-button>
+         </router-link>
+         
+         <el-button @click="show">批量操作</el-button>
+       </div>
 
+      <!-- table选择总数 -->
+       <div class="totalNumber">
+         <div class="totalNumberOption"></div>
+         <p class="totalNumberP">已选择{{maxNum}}项</p>
+       </div>
 
-  <el-table
-  border
-    :data="tableData"
-    style="width: 100%">
-    <el-table-column type="selection"></el-table-column>
-    <el-table-column
-      fixed
-      prop="date"
-      label="客户名称"
-      width="150">
-    </el-table-column>
-    <el-table-column
-      prop="name"
-      label="客户类型"
-      sortable
-      width="120">
-    </el-table-column>
-    <el-table-column
-      prop="province"
-      label="客户子类型"
-      width="120">
-    </el-table-column>
-    <el-table-column
-      prop="city"
-      label="录入人"
-      width="120">
-    </el-table-column>
-    <el-table-column
-      prop="address"
-      label="归属人"
-      width="300">
-    </el-table-column>
-    <el-table-column
-      prop="zip"
-      label="录入日期"
-      sortable
-      width="120">
-    </el-table-column>
-    <el-table-column
-      fixed="right"
-      label="操作"
-      width="100">
+  <el-table :data="tableData" style="width: 100%" @selection-change="selectionChange">
+    <el-table-column type="selection" v-if="isShow"></el-table-column>
+    <el-table-column fixed prop="date" label="客户名称" width="auto"></el-table-column>
+    <el-table-column prop="name" label="客户类型" sortable width="120"></el-table-column>
+    <el-table-column prop="province" label="客户子类型" width="auto"></el-table-column>
+    <el-table-column prop="city" label="录入人" width="auto"></el-table-column>
+    <el-table-column prop="address" label="归属人" width="auto"></el-table-column>
+    <el-table-column prop="zip" label="录入日期" sortable width="auto"></el-table-column>
+    <el-table-column fixed="right" label="操作" width="auto">
       <template slot-scope="scope">
-        <el-button type="text" size="small">详情</el-button>
-        <el-button type="text" size="small">删除</el-button>
+        <router-link to="/ctmManagement/ctmMaintain">
+        <el-button type="text">详情</el-button>
+        </router-link>
+        <el-button type="text">删除</el-button>
       </template>
     </el-table-column>
   </el-table>
-
 
   <div class="block">
     <el-pagination
@@ -97,19 +79,14 @@
       layout="total, sizes, prev, pager, next, jumper"
       :total="1000">
     </el-pagination>
-  </div>
-
-
-
-
-
-
+    </div>
          </el-main>
     </div>
 </template>
 <script>
 import store from "@/assets/js/store/store.js";
 import publicHeader from "@/components/publicHeader/displayHeader.vue";
+import axios from "axios";
 
 export default {
   name: "ctmQuery",
@@ -178,18 +155,33 @@ export default {
       currentPage1: 5,
       currentPage2: 5,
       currentPage3: 5,
-      currentPage4: 4
+      currentPage4: 4,
+      isSelection: "",
+      maxNum: 0,
+      isShow: false
     };
   },
   methods: {
     clearValue: function() {
       this.textValue = "";
       this.placeholder = "请选择";
+    },
+    selectionChange: function(index) {
+      for (var i = 0; i < index.length; i++) {
+        this.maxNum = i + 1;
+      }
+    },
+    show: function() {
+      this.isShow = !this.isShow;
+    },
+    chaxun: function() {
+      // console.log(this.textValue);
+      // axios.get("/api/customer/adBrand/list").then(function(res) {
+      //   console.log(res);
+      // });
     }
   },
-  beforeMount: function() {
-    // console.log(this.tableData);
-  },
+  beforeMount: function() {},
   components: {
     "v-publicHeader": publicHeader
   }
@@ -210,6 +202,7 @@ export default {
   margin-right: 20px;
   display: flex;
   flex-wrap: wrap;
+  height: 40px;
 }
 .block {
   text-align: right;
@@ -217,5 +210,27 @@ export default {
 }
 .el-table {
   text-align: center;
+}
+.newButton {
+  padding: 10px 0 10px 0;
+}
+.totalNumber {
+  width: 100%;
+  height: 30px;
+  border: 1px solid #409eff;
+  position: relative;
+  line-height: 5px;
+  margin-bottom: 5px;
+}
+.totalNumberOption {
+  width: 100%;
+  height: 100%;
+  background: #409eff;
+  opacity: 0.1;
+  position: absolute;
+  z-index: -1;
+}
+.totalNumberP {
+  padding-left: 20px;
 }
 </style>

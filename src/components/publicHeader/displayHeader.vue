@@ -1,13 +1,15 @@
 <template>
 <div class="publicHeader">
-  <el-header style="text-align: left;">
-    <p class="publicHeader-oneP">
+    <!-- <p class="publicHeader-oneP">
       <span>{{publicHeader.parentName}}</span><span>/</span><span>{{publicHeader.children}}</span>
     </p>
     <p class="publicHeader-twoP">
       {{publicHeader.children}}
-    </p>
-  </el-header>
+    </p> -->
+    <el-breadcrumb separator-class="el-icon-arrow-right">
+      <el-breadcrumb-item :to="{ path: '/' }">{{publicHeader.parentName}}</el-breadcrumb-item>
+      <el-breadcrumb-item>{{publicHeader.children}}</el-breadcrumb-item>
+    </el-breadcrumb>
 </div> 
 </template>
 <script>
@@ -26,6 +28,8 @@ export default {
 <style lang="scss" scoped>
 .publicHeader {
   width: 100%;
+  padding: 20px 0 20px 20px;
+  border-bottom: 1px solid #dcdfe6;
 }
 .publicHeader-oneP {
   display: inline-block;

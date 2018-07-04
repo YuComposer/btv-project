@@ -1,21 +1,40 @@
 <template>
 <div id="app">
-    <el-container style="height: 100%; border: 1px solid #eee">
+    <!-- <el-container style="height: 100%; border: 1px solid #eee">
 
-      <!-- 侧边栏template -->
       <v-customerAside></v-customerAside>
-      <!-- 主体 -->
       <template>
         <router-view></router-view>
       </template>
 
-    </el-container>
+    </el-container> -->
+    <div class="ancestors_top">
+      <div class="ancestors_icon">
+        <span>btvlogo</span>
+      </div>
+      <div class="ancestors_header">
+        <v-ancestorsHeader></v-ancestorsHeader>
+      </div>
+    </div>
+
+    <div class="ancestors_bottom">
+      <div class="ancestors_left">
+        <v-ancestorsAside></v-ancestorsAside>
+      </div>
+      <div class="ancestors_right">
+        <router-view></router-view>
+      </div>
+    </div>
+
+
   </div>
 </template>
 
 <script>
 import customerAside from "@/components/aside/customerAside/customerAside";
 import store from "@/assets/js/store/store.js";
+import ancestorsHeader from "@/components/ancestors/ancestors_header";
+import ancestorsAside from "@/components/ancestors/ancestors_aside";
 export default {
   name: "App",
   data() {
@@ -25,7 +44,9 @@ export default {
   },
   methods: {},
   components: {
-    "v-customerAside": customerAside
+    "v-customerAside": customerAside,
+    "v-ancestorsHeader": ancestorsHeader,
+    "v-ancestorsAside": ancestorsAside
   },
   beforeMount: function() {
     console.log("这是store里面的所有数据️⤵️");
@@ -76,23 +97,52 @@ h5 {
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
 }
-.el-header {
-  background-color: #b3c0d1;
-  color: #333;
+.ancestors_top {
+  display: flex;
+}
+.ancestors_icon {
+  flex: 1.3;
+  background: aqua;
+  height: 100px;
+  min-width: 150px;
+}
+.ancestors_header {
+  flex: 8.7;
+  background: yellowgreen;
+  min-width: 600px;
+}
+.ancestors_bottom {
+  display: flex;
+}
+.ancestors_left {
+  flex: 1.3;
+  background: pink;
+  min-width: 150px;
+}
+.ancestors_right {
+  flex: 8.7;
+  background: orchid;
+  min-width: 600px;
+  overflow-y: scroll;
 }
 
-.el-aside {
-  color: #333;
-}
-.el-container {
-  height: 100%;
-}
-div {
-  display: block;
-}
-.el-header {
-  line-height: 0;
-  padding: 0;
-  margin: 0;
-}
+// .el-header {
+//   background-color: #b3c0d1;
+//   color: #333;
+// }
+
+// .el-aside {
+//   color: #333;
+// }
+// .el-container {
+//   height: 100%;
+// }
+// div {
+//   display: block;
+// }
+// .el-header {
+//   line-height: 0;
+//   padding: 0;
+//   margin: 0;
+// }
 </style>
