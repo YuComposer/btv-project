@@ -308,18 +308,19 @@ export default {
     },
     //点击table编辑时触发
     saveVendorInfo: function() {
-      this.editDisplay = false;
       console.log(this.editVendorModel);
       var editVendorModel = this.editVendorModel;
       if (
-        editVendorModel.VendorType == "" &&
-        editVendorModel.address == "" &&
-        editVendorModel.childType == "" &&
+        editVendorModel.VendorType == "" ||
+        editVendorModel.address == "" ||
+        editVendorModel.childType == "" ||
         editVendorModel.Personal == ""
       ) {
         console.log("请补全必填项");
       } else {
         console.log(editVendorModel);
+        console.log("保存成功");
+        // this.editDisplay = false;
       }
     }
   },
