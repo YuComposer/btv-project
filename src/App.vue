@@ -61,13 +61,12 @@ export default {
 body {
   margin: 0;
   padding: 0;
-  overflow: hidden;
+  // overflow: hidden;
 }
 body,
 html {
   -webkit-text-size-adjust: none;
   width: 100%;
-  height: 100%;
 }
 * {
   text-decoration: none;
@@ -95,14 +94,14 @@ h5 {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
+  color: #453f3b;
 }
 .ancestors_top {
   display: flex;
 }
 .ancestors_icon {
   flex: 1.3;
-  background: aqua;
+  background: #fff;
   height: 100px;
   min-width: 150px;
 }
@@ -113,36 +112,37 @@ h5 {
 }
 .ancestors_bottom {
   display: flex;
+  height: 1000px;
 }
 .ancestors_left {
   flex: 1.3;
-  background: pink;
+  background: #2c323d;
   min-width: 150px;
 }
 .ancestors_right {
   flex: 8.7;
-  background: orchid;
+  background: #f3f3f3;
   min-width: 600px;
   overflow-y: scroll;
 }
 
 // .el-header {
-//   background-color: #b3c0d1;
-//   color: #333;
+// background-color: #b3c0d1;
+// color: #333;
 // }
 
 // .el-aside {
-//   color: #333;
+// color: #333;
 // }
 // .el-container {
-//   height: 100%;
+// height: 100%;
 // }
 // div {
-//   display: block;
+// display: block;
 // }
 // .el-header {
-//   line-height: 0;
-//   padding: 0;
-//   margin: 0;
+// line-height: 0;
+// padding: 0;
+// margin: 0;
 // }
 </style>
