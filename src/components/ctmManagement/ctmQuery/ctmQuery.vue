@@ -508,7 +508,10 @@ export default {
           dangerouslyUseHTMLString: true
         }
       );
-      console.log("应该展示的详情页ID为" + value.zip);
+      // console.log("应该展示的详情页ID为" + value.zip);
+      axios.get("/api/customer/adCustmoer/searchOne?id=1").then(function(res) {
+        console.log(res);
+      });
     },
     //table编辑对应项
     updataTbaleItem: function(value) {
@@ -535,11 +538,12 @@ export default {
     handleCurrentChange(val) {
       this.pageNumebr = `${val}`;
       axios
-        .get("/api/customer/adCustmoer/search?page=" + this.pageNumebr + "")
+        .get("/api/customer/adCustmoer/search?page=1&nub=2")
+        // ?page=" + this.pageNumebr + "
         .then(function(res) {
-          cosnole.log(res);
+          console.log(res);
         });
-      console.log("当前页码为" + this.pageNumebr);
+      // console.log("当前页码为" + this.pageNumebr);
     },
     //获取级联下拉框选中内容
     getSelection: function(value) {

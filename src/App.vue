@@ -49,10 +49,10 @@ export default {
     "v-ancestorsAside": ancestorsAside
   },
   beforeMount: function() {
-    console.log("这是store里面的所有数据️⤵️");
-    console.log(this.$store.state);
-    console.log("这是所有的router信息⤵️");
-    console.log(this.$router.options.routes);
+    // console.log("这是store里面的所有数据️⤵️");
+    // console.log(this.$store.state);
+    // console.log("这是所有的router信息⤵️");
+    // console.log(this.$router.options.routes);
   }
 };
 </script>

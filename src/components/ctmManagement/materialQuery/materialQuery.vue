@@ -5,7 +5,7 @@
         <!--查询表单-->
         <el-form style="width:300px">
           <el-form-item>
-          <el-input placeholder="客户名称/磁带编号/磁带长度/磁带版本/品牌名称/产品名称" suffix-icon="el-icon-search"></el-input>
+          <el-input v-model="headerQuery" @keyup.enter.native="getHeaderQuery" placeholder="客户名称/磁带编号/磁带长度/磁带版本/品牌名称/产品名称" suffix-icon="el-icon-search"></el-input>
           </el-form-item>
           <el-form-item>
           <el-button type="primary" style="background:#409EFF;border:none;margin-top:-12px;margin-bottom:-12px;" @click="dialogFormVisible = true"> + 新建</el-button>
@@ -30,43 +30,162 @@
         <!--新建按钮 批量操作按钮-->
 
         <!-- 点击新建按钮弹出的 -->
-        <el-dialog title="新建" :visible.sync="dialogFormVisible">
+  <el-dialog title="新建" :visible.sync="dialogFormVisible">
+  <el-collapse accordion>
+    <!-- 厂商信息 -->
+    <el-collapse-item>
+      <template slot="title">厂商信息 <i class="header-icon el-icon-info" style="color:#409EFF"></i>
+      </template>
+      <el-form :model="newVendorInfoModel" :rules="rules" ref="newVendorInfoModel" label-width="100px" class="demo-form-inline">
+          <el-form-item label="厂商名称"  prop="name">
+            <el-input v-model="newVendorInfoModel.name"></el-input>
+          </el-form-item>
+          <el-form-item label="厂商类型" prop="class">
+            <el-select v-model="newVendorInfoModel.class" placeholder="请选择厂商类型">
+              <el-option v-for="(item , index) in newVendorClass" :key="index" :label="item.value" :value="item.key"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="所属地址" prop="address">
+            <el-select v-model="newVendorInfoModel.address" placeholder="请选择所属地址">
+              <el-option v-for="(item , index) in newVendorAddress" :key="index" :label="item.value" :value="item.key"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="子类型" prop="childClass">
+            <el-select v-model="newVendorInfoModel.childClass" placeholder="请选择子类型">
+              <el-option v-for="(item , index) in newVendorChildClass" :key="index" :label="item.value" :value="item.key"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="归属人" prop="Personal">
+            <el-select v-model="newVendorInfoModel.Personal" placeholder="请选择归属人">
+              <el-option v-for="(item , index) in newVendorPersonal" :key="index" :label="item.value" :value="item.key"></el-option>
+            </el-select>
+          </el-form-item>
+      </el-form>
+      
+    </el-collapse-item>
+    <!-- 品牌信息 -->
+    <el-collapse-item>
+      <template slot="title">品牌信息  <i class="header-icon el-icon-info" style="color:#409EFF"></i>
+      </template>
+      <el-form :model="newBrandInfoModel" :rules="rules" ref="newBrandInfoModel" label-width="100px" class="demo-form-inline">
+          <el-form-item label="厂商名称" prop="vendorName">
+            <el-select v-model="newBrandInfoModel.vendorName" placeholder="请选择厂商类型">
+              <el-option v-for="(item , index) in newVendorClass" :key="index" :label="item.value" :value="item.key"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="品牌名称"  prop="brandName">
+            <el-input v-model="newBrandInfoModel.brandName"></el-input>
+          </el-form-item>
+      </el-form>
+    </el-collapse-item>
+    <!-- 产品信息 -->
+    <el-collapse-item>
+      <template slot="title">产品信息  <i class="header-icon el-icon-info" style="color:#409EFF"></i>
+      </template>
 
-          
-        <el-form :inline="true" :model="formInline" class="demo-form-inline">
-          <el-form-item label="厂商名称">
-            <el-input v-model="formInline.user" placeholder="厂商名称"></el-input>
-          </el-form-item>
-          <el-form-item label="厂商类型">
-            <el-select v-model="formInline.region" placeholder="厂商类型">
-              <el-option label="区域一" value="shanghai"></el-option>
-              <el-option label="区域二" value="beijing"></el-option>
+      <el-form :model="productInfoModel" :rules="rules" ref="productInfoModel" label-width="100px" class="demo-form-inline">
+          <el-form-item label="厂商名称" prop="productVendorName">
+            <el-select v-model="productInfoModel.vendorName" placeholder="请选择厂商名称">
+              <el-option v-for="(item , index) in newProductVendorName" :key="index" :label="item.value" :value="item.key"></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="所属地址">
-            <el-select v-model="formInline.region" placeholder="所属地址">
-              <el-option label="区域一" value="shanghai"></el-option>
-              <el-option label="区域二" value="beijing"></el-option>
+          <el-form-item label="品牌名称" prop="productBrandName">
+            <el-select v-model="newBrandInfoModel.brandName" placeholder="请选择厂商类型">
+              <el-option v-for="(item , index) in newProductBrandName" :key="index" :label="item.value" :value="item.key"></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="子类型">
-            <el-select v-model="formInline.region" placeholder="子类型">
-              <el-option label="区域一" value="shanghai"></el-option>
-              <el-option label="区域二" value="beijing"></el-option>
+          <el-form-item label="产品名称"  prop="brandName">
+            <el-input v-model="newBrandInfoModel.productName"></el-input>
+          </el-form-item>
+          <el-form-item label="产品类别" prop="productClass">
+            <el-select v-model="newBrandInfoModel.productClass" placeholder="请选择厂商类型">
+              <el-option v-for="(item , index) in newProductClass" :key="index" :label="item.value" :value="item.key"></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="归属人">
-            <el-select v-model="formInline.region" placeholder="归属人">
-              <el-option label="区域一" value="shanghai"></el-option>
-              <el-option label="区域二" value="beijing"></el-option>
+          <el-form-item label="所属行业">
+            <el-select v-model="newBrandInfoModel.industry" placeholder="请选择厂商类型">
+              <el-option v-for="(item , index) in newProductIndustry" :key="index" :label="item.value" :value="item.key"></el-option>
             </el-select>
           </el-form-item>
-        </el-form>
-          <div slot="footer" class="dialog-footer">
-            <el-button @click="dialogFormVisible = false">取 消</el-button>
-            <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
-          </div>
-        </el-dialog>
+      </el-form>
+        
+    </el-collapse-item>
+    <el-collapse-item>
+      <template slot="title">素材信息  <i class="header-icon el-icon-info" style="color:#409EFF"></i>
+      </template>
+
+      <el-form>
+        <el-col :span="12">
+          <el-form-item label="厂商名称" label-width="100px">
+          <el-select>
+            <el-option></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="品牌名称" label-width="100px">
+          <el-select>
+            <el-option></el-option>
+          </el-select>
+        </el-form-item>
+        </el-col>
+        
+        <el-col :span="12">
+          <el-form-item label="产品名称" label-width="100px">
+          <el-select>
+            <el-option></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="素材名称" label-width="100px">
+          <el-select>
+            <el-option></el-option>
+          </el-select>
+        </el-form-item>
+        </el-col>
+        
+        <el-col :span="12">
+          <el-form-item label="素材编号" label-width="100px">
+          <el-select>
+            <el-option></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="素材长度" label-width="100px">
+          <el-select>
+            <el-option></el-option>
+          </el-select>
+        </el-form-item>
+        </el-col>
+        
+        <el-col :span="12">
+          <el-form-item label="素材版本" label-width="100px">
+          <el-select>
+            <el-option></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="清晰度" label-width="100px">
+          <el-select>
+            <el-option></el-option>
+          </el-select>
+        </el-form-item>
+        </el-col>
+        
+        <el-col :span="12">
+          <el-form-item label="包含客户数量" label-width="100px">
+            <el-input></el-input>
+          </el-form-item>
+          <el-form-item label="厂商内部编号" label-width="100px">
+            <el-input></el-input>
+          </el-form-item>
+        </el-col>
+        
+      </el-form>
+        
+    </el-collapse-item>
+  </el-collapse>
+
+    <div slot="footer" class="dialog-footer">
+      <el-button @click="dialogFormVisible = false">取 消</el-button>
+      <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+    </div>
+  </el-dialog>
 
         <!--table选择总数-->
         <!-- <div class="totalNumber">
@@ -103,7 +222,7 @@
         </el-table>
 
         <!-- 点击编辑按钮的弹出框 -->
-          <el-dialog title="编辑" :visible.sync="editDisplay">
+  <el-dialog title="编辑" :visible.sync="editDisplay">
   <el-form>
       <el-form-item label="厂商名称" label-width="100px">
         <el-input auto-complete="off"></el-input>
@@ -137,6 +256,8 @@
 
         <div class="block">
           <el-pagination
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
             :current-page="currentPage4"
             :page-sizes="[5, 10, 15, 20]"
             :page-size="100"
@@ -151,11 +272,65 @@
 <script>
 import store from "@/assets/js/store/store.js";
 import publicHeader from "@/components/publicHeader/displayHeader.vue";
+import axios from "axios";
 
 export default {
   name: "materialQuery",
   data() {
     return {
+      //表单验证规则
+      rules: {
+        name: [{ required: true, message: "请输入活动名称", trigger: "blur" }],
+        class: [
+          { required: true, message: "请选择厂商类型", trigger: "change" }
+        ],
+        address: [
+          { required: true, message: "请选择所属地址", trigger: "change" }
+        ],
+        childClass: [
+          { required: true, message: "请选择子类型", trigger: "change" }
+        ],
+        Personal: [
+          { required: true, message: "请选择归属人", trigger: "change" }
+        ],
+        vendorName: [
+          { required: true, message: "请选择厂商名称", trigger: "change" }
+        ],
+        brandName: [
+          { required: true, message: "请输入品牌名称", trigger: "blur" }
+        ],
+        productVendorName: [
+          { required: true, message: "请选择厂商名称", trigger: "change" }
+        ],
+        productBrandName: [
+          { required: true, message: "请选择品牌名称", trigger: "change" }
+        ],
+        productClass: [
+          { required: true, message: "请输入产品类别", trigger: "change" }
+        ]
+      },
+      //新建->厂商信息绑定的model
+      newVendorInfoModel: {
+        name: "",
+        class: "",
+        address: "",
+        childClass: "",
+        Personal: ""
+      },
+      //新建->品牌信息绑定的model
+      newBrandInfoModel: {
+        vendorName: "",
+        brandName: ""
+      },
+      //新建->产品信息绑定的model
+      productInfoModel: {
+        vendorName: "",
+        brandName: "",
+        productName: "",
+        productClass: "",
+        industry: "" //所属行业
+      },
+      //table列表
       tableData: [
         {
           name: "联合利华股份有限公司",
@@ -198,6 +373,105 @@ export default {
           Date_of: "2016-05-03"
         }
       ],
+      //新建->厂商信息->厂商类型
+      newVendorClass: [
+        {
+          value: "厂商类型一",
+          key: "类型一"
+        },
+        {
+          value: "厂商类型二",
+          key: "类型二"
+        }
+      ],
+      //新建->厂商信息->所属地址
+      newVendorAddress: [
+        {
+          value: "所属地址一",
+          key: "所属地址一"
+        },
+        {
+          value: "所属地址二",
+          key: "所属地址二"
+        }
+      ],
+      //新建->厂商信息->子类型
+      newVendorChildClass: [
+        {
+          value: "子类型一",
+          key: "类型一"
+        },
+        {
+          value: "子类型二",
+          key: "类型二"
+        }
+      ],
+      //新建->厂商信息->归属人
+      newVendorPersonal: [
+        {
+          value: "归属人一",
+          key: "人一"
+        },
+        {
+          value: "归属人二",
+          key: "人二"
+        }
+      ],
+      //新建->品牌信息->厂商名称
+      newBrandInfoVendorName: [
+        {
+          value: "厂商名称一",
+          key: "名称一"
+        },
+        {
+          value: "厂商名称二",
+          key: "名称二"
+        }
+      ],
+      //新建->产品信息->厂商名称
+      newProductVendorName: [
+        {
+          value: "厂商名称一",
+          key: "名称一"
+        },
+        {
+          value: "厂商名称二",
+          key: "名称二"
+        }
+      ],
+      //新建->产品信息->品牌名称
+      newProductBrandName: [
+        {
+          value: "品牌名称一",
+          key: "名称一"
+        },
+        {
+          value: "品牌名称二",
+          key: "名称二"
+        }
+      ],
+      //新建->产品信息->产品类别
+      newProductClass: [
+        {
+          value: "产品类别一",
+          key: "类别一"
+        },
+        {
+          value: "产品类别二",
+          key: "类别二"
+        }
+      ],
+      //新建->产品信息->所属行业
+      newProductIndustry: [
+        {
+          value: "所属行业一",
+          key: "行业一"
+        },
+        {
+          value: "所属行业二",
+          key: "行业二"
+        }
+      ],
       //编辑厂商绑定的model
       editVendorModel: {
         VendorType: "",
@@ -205,7 +479,7 @@ export default {
         childType: "",
         Personal: ""
       },
-      //厂商类型
+      //编辑厂商类型
       editVendorType: [
         {
           value: "厂商类型一",
@@ -216,7 +490,7 @@ export default {
           key: "类型二"
         }
       ],
-      //厂商所属地址
+      //编辑厂商所属地址
       editAddress: [
         {
           value: "所属地址一",
@@ -227,7 +501,7 @@ export default {
           key: "地址二"
         }
       ],
-      //子类型
+      //编辑子类型
       editChildType: [
         {
           value: "子类型一",
@@ -238,7 +512,7 @@ export default {
           key: "类型二"
         }
       ],
-      //所属人
+      //编辑所属人
       aditPersonal: [
         {
           value: "所属人一",
@@ -262,7 +536,8 @@ export default {
         user: "",
         region: ""
       },
-      editDisplay: false //切换编辑弹出框状态
+      editDisplay: false, //切换编辑弹出框状态
+      headerQuery: ""
     };
   },
   methods: {
@@ -299,7 +574,7 @@ export default {
           dangerouslyUseHTMLString: true
         }
       );
-      console.log("应该展示的详情页ID为" + value.zip);
+      // console.log("应该展示的详情页ID为" + value.zip);
     },
     //table编辑对应项
     updataTbaleItem: function(value) {
@@ -322,6 +597,52 @@ export default {
         console.log("保存成功");
         // this.editDisplay = false;
       }
+    },
+    //点击table删除按钮时触发的
+    deleteTable_item: function(value) {
+      console.log(value.change);
+    },
+    //获取每页有几条
+    handleSizeChange(val) {
+      axios({
+        method: "POST",
+        url: "/api/customer/adMaterial/getAdMaterialByRequires",
+        params: {
+          page: `${val}`
+        }
+      }).then(function(res) {
+        console.log(res);
+      });
+      console.log("每页分几条接口测试成功");
+    },
+    //获取当前页页码
+    handleCurrentChange(val) {
+      // this.pageNumebr = `${val}`;
+      axios({
+        method: "POST",
+        url: "/api/customer/adMaterial/getAdMaterialByRequires",
+        params: {
+          page: `${val}`
+        }
+      }).then(function(res) {
+        console.log(res);
+      });
+      console.log("分页接口测试成功");
+    },
+    //回车后获取模糊查询中的内容
+    getHeaderQuery: function() {
+      console.log(this.headerQuery);
+      var _this = this;
+      axios({
+        method: "POST",
+        url: "/api/customer/adMaterial/getAdMaterialByRequires",
+        params: {
+          brandCustName: _this.headerQuery
+        }
+      }).then(function(res) {
+        console.log(res);
+      });
+      console.log("模糊查询接口测试成功");
     }
   },
   components: {
