@@ -114,7 +114,7 @@
       <template slot="title">素材信息  <i class="header-icon el-icon-info" style="color:#409EFF"></i>
       </template>
 
-      <el-form>
+      <el-form :model="newSourceMaterialModel" :rules="rules" ref="newSourceMaterialModel" label-width="100px" class="demo-form-inline">
         <el-col :span="12">
           <el-form-item label="厂商名称" label-width="100px">
           <el-select>
@@ -330,6 +330,19 @@ export default {
         productClass: "",
         industry: "" //所属行业
       },
+      //新建->素材信息绑定的model
+      newSourceMaterialModel: {
+        vendorName: "",
+        productName: "",
+        brandName: "",
+        sourceMaterialName: "",
+        sourceMaterialNumber: "",
+        sourceMaterialEdition: "",
+        sourceMaterialLen: "",
+        definition: "", //清晰度
+        userNumber: "", //包含客户数量
+        vendorNumber: "" //厂商编号
+      },
       //table列表
       tableData: [
         {
@@ -470,6 +483,116 @@ export default {
         {
           value: "所属行业二",
           key: "行业二"
+        }
+      ],
+      //新建->素材信息->厂商名称
+      newSourceMaterialVendorName: [
+        {
+          value: "厂商名称一",
+          key: "名称一"
+        },
+        {
+          value: "厂商名称二",
+          key: "名称二"
+        }
+      ],
+      //新建->素材信息->品牌名称
+      newSourceMaterialBrandName: [
+        {
+          value: "品牌名称一",
+          key: "名称一"
+        },
+        {
+          value: "品牌名称二",
+          key: "名称二"
+        }
+      ],
+      //新建->素材信息->产品名称
+      newSourceMaterialProductName: [
+        {
+          value: "产品名称一",
+          key: "名称一"
+        },
+        {
+          value: "产品名称二",
+          key: "名称二"
+        }
+      ],
+      //新建->素材信息->素材分类
+      newSourceMaterialClass: [
+        {
+          value: "素材分类一",
+          key: "分类一"
+        },
+        {
+          value: "素材分类二",
+          key: "分类二"
+        }
+      ],
+      //新建->素材编号->素材编号
+      newSourceMaterialNumber: [
+        {
+          value: "素材编号一",
+          key: "编号一"
+        },
+        {
+          value: "素材编号二",
+          key: "编号二"
+        }
+      ],
+      //新建->素材信息->素材长度
+      newSourceMaterialLen: [
+        {
+          value: "素材长度一",
+          key: "长度二"
+        },
+        {
+          valuer: "素材长度二",
+          key: "长度二"
+        }
+      ],
+      //新建->素材信息->素材版本
+      newSourceMaterialEdition: [
+        {
+          value: "素材版本一",
+          key: "版本一"
+        },
+        {
+          value: "素材版本二",
+          key: "版本二"
+        }
+      ],
+      //新建->素材信息->清晰度
+      newSourceMaterialDefinition: [
+        {
+          value: "清晰度一",
+          key: "度一"
+        },
+        {
+          value: "清晰度二",
+          key: "度二"
+        }
+      ],
+      //新建->素材信息->客户数量
+      newSourceMaterialUserNumert: [
+        {
+          value: "客户数量一",
+          key: "数量以"
+        },
+        {
+          value: "客户数量二",
+          key: "数量二"
+        }
+      ],
+      //新建->素材信息->内部编号
+      newSourceMaterialVendorNumber: [
+        {
+          value: "内部编号一",
+          key: "编号一"
+        },
+        {
+          value: "内部编号二",
+          key: "编号二"
         }
       ],
       //编辑厂商绑定的model

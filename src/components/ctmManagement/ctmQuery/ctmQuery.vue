@@ -468,11 +468,12 @@ export default {
     //批量删除时点击的对应项的id
     selectionChange: function(value) {
       var that = this;
-      for (var i in value) {
-        that.oneTableId = value[i].name;
-      }
-      that.arr.push(that.oneTableId);
-      console.log(that.arr);
+      value.forEach(element => {
+        // that.arr.push([element.name]);
+        console.log(element);
+      });
+      // that.arr.push(that.oneTableId);
+      // console.log(that.arr);
     },
     show: function() {
       this.isShow = !this.isShow;
